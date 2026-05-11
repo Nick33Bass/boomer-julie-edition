@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boomer ou pas Boomer — Julie Edition</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#080811;color:#fff;overflow-x:hidden}
+.bg{position:fixed;inset:0;background:radial-gradient(circle at top,#5f247d 0%,#0a0a18 55%,#020204 100%);z-index:-2}
+.grid{position:fixed;bottom:-20%;left:-50%;width:200%;height:60%;background-image:linear-gradient(rgba(0,229,255,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.18) 1px,transparent 1px);background-size:60px 60px;transform:perspective(500px) rotateX(75deg);z-index:-1}
+.container{max-width:1100px;margin:auto;padding:20px}
+.hero{display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.left{flex:1;min-width:320px}
+.right{flex:1;min-width:320px;text-align:center}
+.title{font-size:5rem;font-weight:900;line-height:.9;text-transform:uppercase}
+.pink{color:#ff008c;text-shadow:0 0 18px #ff008c}
+.blue{color:#00d9ff;text-shadow:0 0 18px #00d9ff}
+.edition{font-size:3rem;color:#ff8ad8;font-style:italic;margin-top:10px}
+.subtitle{font-size:1.3rem;line-height:1.6;margin-top:25px}
+.boomgirl{max-width:100%;border-radius:22px;box-shadow:0 0 40px rgba(255,0,170,.45)}
+.card{background:rgba(0,0,0,.72);border:2px solid #ff008c;padding:25px;border-radius:26px;margin-top:25px;backdrop-filter:blur(10px)}
+.progress{height:12px;background:#222;border-radius:20px;overflow:hidden;margin-bottom:20px}
+.progress-bar{height:100%;width:0;background:linear-gradient(90deg,#ff008c,#00d9ff)}
+.question{font-size:1.5rem;font-weight:bold;margin-bottom:20px}
+.answer{display:block;width:100%;margin-top:12px;padding:18px;border-radius:18px;border:2px solid #2d2d38;background:#11111b;color:white;font-size:1rem;text-align:left;cursor:pointer}
+.answer:hover{border-color:#00d9ff}
+.btn{padding:18px;border:none;border-radius:18px;background:linear-gradient(45deg,#ff008c,#ff6a00);color:#fff;font-weight:bold;font-size:1rem;cursor:pointer;width:100%;margin-top:18px}
+.score{font-size:5rem;color:#ff008c;font-weight:900;text-align:center}
+.result-title{font-size:2.2rem;text-align:center;color:#00d9ff}
+.result-text{text-align:center;font-size:1.2rem;line-height:1.7}
+@media(max-width:700px){.title{font-size:3rem} .edition{font-size:2rem}}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="grid"></div>
+
+<div class="container">
+
+<div id="start">
+<div class="hero">
+<div class="left">
+<div class="title">
+<span class="pink">Boomer</span><br>
+ou pas<br>
+<span class="blue">Boomer ?</span>
+</div>
+
+<div class="edition">Julie Edition</div>
+
+<div class="subtitle">
+32 questions • génération 77-80 • autodérision • néons • VHS vibes 😄<br><br>
+Julie veut savoir si tu es devenu vieux avant l'heure… ou juste vintage.
+</div>
+
+<button class="btn" onclick="startQuiz()">LANCER LE TEST</button>
+</div>
+
+<div class="right">
+<img src="boomgirl.jpg" class="boomgirl">
+</div>
+</div>
+</div>
+
+<div id="quiz" style="display:none" class="card">
+<div class="progress"><div class="progress-bar" id="bar"></div></div>
+<div id="number"></div>
+<div class="question" id="question"></div>
+<div id="answers"></div>
+</div>
+
+<div id="result" style="display:none" class="card">
+<img src="boomgirl.jpg" class="boomgirl">
+<div class="score" id="score"></div>
+<div class="result-title" id="resultTitle"></div>
+<div class="result-text" id="resultText"></div>
+<button class="btn" onclick="shareResult()">PARTAGER SUR WHATSAPP</button>
+<button class="btn" onclick="location.reload()">RECOMMENCER</button>
+</div>
+
+</div>
+
+<script>
+
+const questions = [
+{q:"Quand tu vois des jeunes danser sur TikTok…",a:[["Je me demande s’ils ont un problème neurologique.",4],["J’essaie de comprendre.",3],["Je connais déjà la trend.",2],["J’ai déjà envoyé une vidéo “pour rire”.",1]]},
+{q:"Ton rapport aux vocaux WhatsApp :",a:[["Écrivez comme tout le monde.",4],["30 secondes max.",3],["Ça dépend.",2],["J’envoie des podcasts.",1]]},
+{q:"Quand tu entends le mot after…",a:[["À mon âge ? Jamais.",4],["Pourquoi pas mais pas trop tard.",3],["Ça dépend avec qui.",2],["On finit où ?",1]]},
+{q:"Question osée 🌶️ Quelqu’un de plus jeune te drague :",a:[["Suspect.",4],["Je demande l’âge.",3],["Je joue le jeu.",2],["Aucun problème.",1]]},
+{q:"Ton samedi idéal :",a:[["Dormir tôt.",4],["Petit resto tranquille.",3],["Improviser.",2],["Finir à danser.",1]]},
+{q:"Quand quelqu’un t’écrit à 2h du matin :",a:[["Mode avion.",4],["Je vois ça demain.",3],["Ça dépend qui.",2],["Je réponds direct.",1]]},
+{q:"Festival électro :",a:[["Fatigue + bouchons.",4],["Une journée max.",3],["Pourquoi pas.",2],["On dort où après ?",1]]},
+{q:"Quand tu te lèves du canapé :",a:[["Tu fais un bruit étrange.",4],["Ça craque un peu.",3],["Ça dépend.",2],["Toujours athlétique.",1]]},
+{q:"Question osée 🌶️ Niveau séduction :",a:[["Confort avant spontanéité.",4],["Connexion émotionnelle.",3],["Encore joueur(se).",2],["Dangereusement efficace.",1]]},
+{q:"Quand quelqu’un parle IA ou crypto :",a:[["Encore une arnaque.",4],["Je décroche.",3],["Ça m’intéresse.",2],["J’ai déjà testé.",1]]},
+{q:"Quand la musique est forte au restaurant :",a:[["On peut même plus parler.",4],["Ça m’agace vite.",3],["Je fais avec.",2],["Ça met l’ambiance.",1]]},
+{q:"Question osée 🌶️ Une nuit blanche aujourd’hui :",a:[["Impossible médicalement.",4],["3 jours pour récupérer.",3],["Ça dépend de la soirée.",2],["Challenge accepté.",1]]},
+{q:"Ton téléphone :",a:[["Sonnerie activée.",4],["Classique.",3],["Bien configuré.",2],["Je donne des conseils tech.",1]]},
+{q:"Quand quelqu’un dit ‘mets-toi sur Discord’ :",a:[["C’est un jeu vidéo ?",4],["Jamais compris.",3],["Je connais.",2],["J’ai déjà un serveur.",1]]},
+{q:"Le dimanche matin après une grosse soirée :",a:[["Silence complet.",4],["Plus jamais ça.",3],["Je recommencerais.",2],["Je repars bruncher.",1]]},
+{q:"Tu dis encore :",a:[["Les jeunes veulent plus travailler.",4],["À notre époque…",3],["Chaque génération a ses codes.",2],["J’aime encore découvrir.",1]]},
+{q:"Question osée 🌶️ Une discussion très sexuelle :",a:[["Je change de sujet.",4],["Je plaisante.",3],["J’assume.",2],["Je redeviens jeune.",1]]},
+{q:"Quand un jeune t’appelle monsieur/madame :",a:[["Normal.",4],["Ça pique.",3],["Je refuse intérieurement.",2],["Je regarde derrière moi.",1]]},
+{q:"Ton rapport aux réseaux sociaux :",a:[["Facebook suffit.",4],["Instagram fatigue.",3],["Je m’adapte.",2],["Je connais les trends.",1]]},
+{q:"Question osée 🌶️ Ton pire signe de vieillissement :",a:[["Le bruit en me levant.",4],["Parler météo.",3],["Les lunettes pour lire.",2],["Un DJ pourrait être mon fils.",1]]},
+{q:"Quand quelqu’un filme un concert :",a:[["Scandaleux.",4],["Triste.",3],["Je comprends.",2],["Je fais pareil.",1]]},
+{q:"Le mot ‘brunch’ te fait penser à :",a:[["Arnaque.",4],["Trop cher.",3],["Pourquoi pas.",2],["Réservation faite.",1]]},
+{q:"Tu as déjà imprimé un mail :",a:[["Évidemment.",4],["Peut-être.",3],["Rarement.",2],["Jamais.",1]]},
+{q:"Le samedi soir à 23h :",a:[["Je pense à dormir.",4],["Je regarde l’heure.",3],["Je suis encore bien.",2],["La soirée commence.",1]]},
+{q:"Question osée 🌶️ Sur les applis de rencontre :",a:[["Ça me fatigue.",4],["Je préfère le réel.",3],["Les deux me vont.",2],["Je maîtrise les codes.",1]]},
+{q:"Quand tu vois une trottinette électrique :",a:[["Danger public.",4],["Ridicule.",3],["Pratique.",2],["J’en ai déjà loué une.",1]]},
+{q:"Ton pire cauchemar :",a:[["Une soirée sans chaise.",4],["Dormir moins de 6h.",3],["Perdre mon téléphone.",2],["Être le plus mature du groupe.",1]]},
+{q:"Tu connais encore les paroles des tubes 90s :",a:[["Tous.",4],["Presque.",3],["Quelques-uns.",2],["Je découvre encore des sons.",1]]},
+{q:"Quand on parle de QR code :",a:[["Pourquoi compliquer ?",4],["Ça m’énerve.",3],["Pratique.",2],["Je scanne direct.",1]]},
+{q:"Question finale 🌶️ Festival 3 jours + camping :",a:[["Vous êtes malades.",4],["Hôtel obligatoire.",3],["Ça dépend avec qui.",2],["À quelle heure on part ?",1]]},
+{q:"Quand quelqu’un dit ‘crush indisponible’ :",a:[["Je comprends rien.",4],["Je fais semblant.",3],["Je connais le concept.",2],["J’utilise le terme.",1]]},
+{q:"Question bonus : tu regardes la météo avant de sortir ?",a:[["Toujours.",4],["Souvent.",3],["Parfois.",2],["Jamais.",1]]}
+];
+
+
+let current=0;
+let total=0;
+
+function startQuiz(){
+document.getElementById('start').style.display='none';
+document.getElementById('quiz').style.display='block';
+showQuestion();
+}
+
+function showQuestion(){
+const q=questions[current];
+document.getElementById('number').innerHTML='QUESTION '+(current+1)+' / '+questions.length;
+document.getElementById('question').innerHTML=q.q;
+document.getElementById('bar').style.width=((current/questions.length)*100)+'%';
+
+const answers=document.getElementById('answers');
+answers.innerHTML='';
+
+q.a.forEach(ans=>{
+const btn=document.createElement('button');
+btn.className='answer';
+btn.innerHTML=ans[0];
+btn.onclick=()=>selectAnswer(ans[1]);
+answers.appendChild(btn);
+});
+}
+
+function selectAnswer(points){
+total+=points;
+current++;
+
+if(current<questions.length){
+showQuestion();
+} else {
+showResult();
+}
+}
+
+function showResult(){
+document.getElementById('quiz').style.display='none';
+document.getElementById('result').style.display='block';
+
+document.getElementById('score').innerHTML=total+' pts';
+
+let title='';
+let text='';
+
+if(total<=48){
+title='Anti-boomer certifié';
+text='Ton âme est encore en festival. Julie valide encore ton potentiel after.';
+} else if(total<=72){
+title='Boomer sous contrôle';
+text='Tu alternes entre modernité et phrases inquiétantes du type : “Franchement avant c’était mieux organisé.”';
+} else if(total<=96){
+title='Boomer avancé';
+text='Tu regardes les horaires du restaurant avant d’accepter une sortie. Julie commence à s’inquiéter.';
+} else {
+title='Boomérisation critique';
+text='Tu râles contre les QR codes, les mises à jour et les trottinettes électriques.';
+}
+
+document.getElementById('resultTitle').innerHTML=title;
+document.getElementById('resultText').innerHTML=text;
+}
+
+function shareResult(){
+window.open('https://wa.me/?text='+encodeURIComponent("Je viens de faire le test 'Boomer ou pas Boomer — Julie Edition' 😄"),'_blank');
+}
+</script>
+
+</body>
+</html>
