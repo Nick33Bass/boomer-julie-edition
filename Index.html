@@ -1,0 +1,528 @@
+<!DOCTYPE html>  
+<html lang="fr">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  
+<title>Boomer ou pas Boomer - Julie Edition</title>  
+  
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">  
+  
+<style>  
+  
+*{  
+margin:0;  
+padding:0;  
+box-sizing:border-box;  
+}  
+  
+body{  
+font-family:'Montserrat',sans-serif;  
+background:#050510;  
+color:white;  
+overflow-x:hidden;  
+  
+background-image:  
+linear-gradient(rgba(255,0,128,.08) 1px, transparent 1px),  
+linear-gradient(90deg, rgba(255,0,128,.08) 1px, transparent 1px);  
+  
+background-size:40px 40px;  
+}  
+  
+.container{  
+max-width:700px;  
+margin:auto;  
+padding:20px;  
+min-height:100vh;  
+display:flex;  
+align-items:center;  
+justify-content:center;  
+}  
+  
+.card{  
+width:100%;  
+background:rgba(0,0,0,.82);  
+border:2px solid #ff00aa;  
+border-radius:25px;  
+padding:30px;  
+box-shadow:0 0 35px rgba(255,0,170,.5);  
+backdrop-filter:blur(12px);  
+}  
+  
+.title{  
+font-family:'Orbitron',sans-serif;  
+font-size:3rem;  
+font-weight:900;  
+text-align:center;  
+line-height:1.1;  
+margin-bottom:20px;  
+text-transform:uppercase;  
+}  
+  
+.pink{  
+color:#ff00aa;  
+text-shadow:0 0 15px #ff00aa;  
+}  
+  
+.blue{  
+color:#00e5ff;  
+text-shadow:0 0 15px #00e5ff;  
+}  
+  
+.julie{  
+text-align:center;  
+font-size:2rem;  
+margin-bottom:20px;  
+color:#ff77c8;  
+font-weight:700;  
+font-style:italic;  
+}  
+  
+.subtitle{  
+text-align:center;  
+line-height:1.6;  
+font-size:1.1rem;  
+margin-bottom:30px;  
+}  
+  
+.btn{  
+width:100%;  
+padding:18px;  
+border:none;  
+border-radius:14px;  
+font-size:1rem;  
+font-weight:700;  
+cursor:pointer;  
+transition:.2s;  
+margin-top:15px;  
+}  
+  
+.btn-main{  
+background:linear-gradient(45deg,#ff00aa,#ff5e00);  
+color:white;  
+}  
+  
+.btn-answer{  
+background:#101018;  
+color:white;  
+border:2px solid #2a2a35;  
+text-align:left;  
+}  
+  
+.btn-answer:hover{  
+border-color:#00e5ff;  
+transform:scale(1.02);  
+}  
+  
+.answer-letter{  
+display:inline-flex;  
+align-items:center;  
+justify-content:center;  
+width:36px;  
+height:36px;  
+border-radius:10px;  
+margin-right:15px;  
+font-weight:700;  
+}  
+  
+.a{background:#ff006e;}  
+.b{background:#ffbe0b;color:black;}  
+.c{background:#00b4d8;}  
+.d{background:#8338ec;}  
+  
+.progress{  
+height:10px;  
+background:#222;  
+border-radius:20px;  
+margin-bottom:25px;  
+overflow:hidden;  
+}  
+  
+.progress-bar{  
+height:100%;  
+background:linear-gradient(90deg,#ff00aa,#00e5ff);  
+width:0%;  
+transition:.3s;  
+}  
+  
+.question-number{  
+font-family:'Orbitron',sans-serif;  
+margin-bottom:15px;  
+color:#00e5ff;  
+}  
+  
+.question{  
+font-size:1.45rem;  
+font-weight:700;  
+margin-bottom:25px;  
+line-height:1.4;  
+}  
+  
+.result-score{  
+font-size:5rem;  
+font-family:'Orbitron',sans-serif;  
+text-align:center;  
+color:#ff00aa;  
+margin:10px 0;  
+}  
+  
+.result-title{  
+text-align:center;  
+font-size:2rem;  
+font-weight:700;  
+margin-bottom:20px;  
+color:#00e5ff;  
+}  
+  
+.result-text{  
+text-align:center;  
+line-height:1.7;  
+font-size:1.1rem;  
+}  
+  
+.share{  
+background:#25D366;  
+color:white;  
+}  
+  
+.footer{  
+text-align:center;  
+margin-top:25px;  
+opacity:.7;  
+font-size:.9rem;  
+}  
+  
+@media(max-width:600px){  
+  
+.title{  
+font-size:2.2rem;  
+}  
+  
+.question{  
+font-size:1.2rem;  
+}  
+  
+.result-score{  
+font-size:4rem;  
+}  
+  
+}  
+  
+</style>  
+</head>  
+  
+<body>  
+  
+<div class="container">  
+  
+<div class="card">  
+  
+<div id="start-screen">  
+  
+<h1 class="title">  
+<span class="pink">Boomer</span><br>  
+ou pas<br>  
+<span class="blue">Boomer ?</span>  
+</h1>  
+  
+<div class="julie">  
+Julie Edition  
+</div>  
+  
+<p class="subtitle">  
+32 questions pour savoir si tu es devenu vieux avant l’heure…<br>  
+ou si ton âme est encore en festival.<br><br>  
+  
+Julie veut connaître la vérité 😄  
+</p>  
+  
+<button class="btn btn-main" onclick="startQuiz()">  
+LANCER LE TEST  
+</button>  
+  
+<div class="footer">  
+100% génération 77-80 • néons • autodérision  
+</div>  
+  
+</div>  
+  
+<div id="quiz-screen" style="display:none;">  
+  
+<div class="progress">  
+<div class="progress-bar" id="progress-bar"></div>  
+</div>  
+  
+<div class="question-number" id="question-number"></div>  
+  
+<div class="question" id="question-text"></div>  
+  
+<div id="answers"></div>  
+  
+</div>  
+  
+<div id="result-screen" style="display:none;">  
+  
+<div class="result-score" id="final-score"></div>  
+  
+<div class="result-title" id="result-title"></div>  
+  
+<div class="result-text" id="result-text"></div>  
+  
+<button class="btn share" onclick="shareResult()">  
+PARTAGER SUR WHATSAPP  
+</button>  
+  
+<button class="btn btn-main" onclick="restartQuiz()">  
+RECOMMENCER  
+</button>  
+  
+</div>  
+  
+</div>  
+  
+</div>  
+  
+<script>  
+  
+const questions = [  
+  
+{  
+q:"Quand tu vois des jeunes danser sur TikTok…",  
+a:[  
+["Je me demande s’ils ont un problème neurologique.",4],  
+["J’essaie de comprendre le concept.",3],  
+["Je connais déjà la trend.",2],  
+["J’ai déjà envoyé une vidéo “pour rire”.",1]  
+]  
+},  
+  
+{  
+q:"Ton rapport aux vocaux WhatsApp :",  
+a:[  
+["Si tu pouvais écrire comme tout le monde.",4],  
+["Maximum 30 secondes sinon je décroche.",3],  
+["Ça dépend de la personne.",2],  
+["J’envoie des podcasts de 4 minutes.",1]  
+]  
+},  
+  
+{  
+q:"Quand tu entends le mot after…",  
+a:[  
+["À mon âge ? Jamais.",4],  
+["Pourquoi pas mais pas trop tard.",3],  
+["Ça dépend avec qui.",2],  
+["On finit où ?",1]  
+]  
+},  
+  
+{  
+q:"Question osée 🌶️ Quand quelqu’un plus jeune te drague :",  
+a:[  
+["Flatteur mais suspect.",4],  
+["Je demande son âge exact.",3],  
+["Je joue le jeu.",2],  
+["J’oublie totalement l’écart d’âge.",1]  
+]  
+},  
+  
+{  
+q:"Ton samedi idéal :",  
+a:[  
+["Dormir tôt.",4],  
+["Petit resto tranquille.",3],  
+["Improviser.",2],  
+["Finir à danser sans l’avoir prévu.",1]  
+]  
+},  
+  
+{  
+q:"Quand quelqu’un t’envoie un message à 2h du matin :",  
+a:[  
+["Mon téléphone est déjà en mode avion.",4],  
+["Je vois le message le lendemain.",3],  
+["Ça dépend de qui écrit.",2],  
+["Je réponds immédiatement.",1]  
+]  
+},  
+  
+{  
+q:"Le mot 'festival électro' te fait penser à :",  
+a:[  
+["Bouchons + bruit + fatigue.",4],  
+["Pourquoi pas une journée.",3],  
+["Ça peut être cool.",2],  
+["On dort où après ?",1]  
+]  
+},  
+  
+{  
+q:"Quand tu te lèves du canapé :",  
+a:[  
+["Tu fais un bruit étrange.",4],  
+["Tu récupères lentement.",3],  
+["Ça dépend des jours.",2],  
+["Tu bondis encore.",1]  
+]  
+},  
+  
+{  
+q:"Question osée 🌶️ Niveau séduction :",  
+a:[  
+["Confort avant spontanéité.",4],  
+["Connexion émotionnelle d’abord.",3],  
+["Encore joueur(se).",2],  
+["Dangereusement compétitif.",1]  
+]  
+},  
+  
+{  
+q:"Quand quelqu’un parle crypto ou IA :",  
+a:[  
+["Encore une arnaque.",4],  
+["Je décroche vite.",3],  
+["Ça m’intéresse un peu.",2],  
+["J’ai déjà testé.",1]  
+]  
+}  
+  
+];  
+  
+let currentQuestion = 0;  
+let totalScore = 0;  
+  
+function startQuiz(){  
+  
+document.getElementById('start-screen').style.display='none';  
+document.getElementById('quiz-screen').style.display='block';  
+  
+showQuestion();  
+  
+}  
+  
+function showQuestion(){  
+  
+const q = questions[currentQuestion];  
+  
+document.getElementById('question-number').innerHTML =  
+`QUESTION ${currentQuestion + 1} / ${questions.length}`;  
+  
+document.getElementById('question-text').innerHTML = q.q;  
+  
+document.getElementById('progress-bar').style.width =  
+((currentQuestion / questions.length) * 100) + '%';  
+  
+const answersDiv = document.getElementById('answers');  
+  
+answersDiv.innerHTML='';  
+  
+const letters=['A','B','C','D'];  
+const classes=['a','b','c','d'];  
+  
+q.a.forEach((answer,index)=>{  
+  
+const button=document.createElement('button');  
+  
+button.className='btn btn-answer';  
+  
+button.innerHTML=`  
+<span class="answer-letter ${classes[index]}">  
+${letters[index]}  
+</span>  
+${answer[0]}  
+`;  
+  
+button.onclick=()=>selectAnswer(answer[1]);  
+  
+answersDiv.appendChild(button);  
+  
+});  
+  
+}  
+  
+function selectAnswer(points){  
+  
+totalScore += points;  
+  
+currentQuestion++;  
+  
+if(currentQuestion < questions.length){  
+  
+showQuestion();  
+  
+}else{  
+  
+showResult();  
+  
+}  
+  
+}  
+  
+function showResult(){  
+  
+document.getElementById('quiz-screen').style.display='none';  
+document.getElementById('result-screen').style.display='block';  
+  
+document.getElementById('final-score').innerHTML =  
+totalScore + " pts";  
+  
+let title="";  
+let text="";  
+  
+if(totalScore <= 15){  
+  
+title="Anti-boomer certifié";  
+  
+text="Ton âme est encore en festival. Julie confirme que tu restes fréquentable 😄";  
+  
+}else if(totalScore <= 24){  
+  
+title="Boomer sous contrôle";  
+  
+text="Tu alternes entre ouverture d’esprit et phrases inquiétantes du type : 'Franchement avant c’était mieux organisé.'";  
+  
+}else if(totalScore <= 32){  
+  
+title="Boomer avancé";  
+  
+text="Tu regardes les horaires du restaurant avant de confirmer une sortie.";  
+  
+}else{  
+  
+title="Boomérisation critique";  
+  
+text="Julie recommande une surveillance rapprochée et une limitation des discussions sur les douleurs lombaires.";  
+  
+}  
+  
+document.getElementById('result-title').innerHTML = title;  
+document.getElementById('result-text').innerHTML = text;  
+  
+}  
+  
+function restartQuiz(){  
+  
+currentQuestion = 0;  
+totalScore = 0;  
+  
+document.getElementById('result-screen').style.display='none';  
+document.getElementById('start-screen').style.display='block';  
+  
+}  
+  
+function shareResult(){  
+  
+const text =  
+"Je viens de faire le test 'Boomer ou pas Boomer - Julie Edition' 😄";  
+  
+window.open(  
+"https://wa.me/?text=" + encodeURIComponent(text),  
+'_blank'  
+);  
+  
+}  
+  
+</script>  
+  
+</body>  
+</html>  
